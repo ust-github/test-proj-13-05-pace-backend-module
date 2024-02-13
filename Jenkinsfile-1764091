@@ -1,0 +1,17 @@
+library identifier: 'jenkins-shared-library@main', retriever: modernSCM(
+  [$class: 'GitSCMSource',
+   remote: 'https://github.com/UST-PACE/pace_jenkins_shared_library.git',
+   credentialsId: 'GITHUB_CREDS'])
+
+ciMaven{
+    gitCredentialsId = 'GITHUB_CREDS'
+    microserviceName = "test-proj-13-05-pace-backend-module"
+    techName = "java"
+    javaBuildCommand = "mvn clean install -DskipTests -Dcheckstyle.skip"
+    javaUnitTestCommand = "mvn test -Dcheckstyle.skip && mvn verify -Dcheckstyle.skip"
+  	sonarCommand = "mvn sonar:sonar -Dcheckstyle.skip -Dsonar.projectKey=test-proj-13-05-pace-backend-module -Dsonar.projectName=test-proj-13-05-pace-backend-module  -Dsonar.java.binaries=target -Dsonar.sources=src/main/java/ -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml"
+  
+    devDeployNamespace = "dev"
+    devDeployPipeline = "test-proj-13-05-pace-backend-module-pace-dagility-deploy-dev"
+  	registryRepo = "docker-sf"
+}
